@@ -6,17 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | 欢迎来到我的博客</title>
+  <title>javascript数据类型 | 欢迎来到我的博客</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta property="og:type" content="website">
-<meta property="og:title" content="欢迎来到我的博客">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="javascript数据类型分类两大类：基本数据类型和引用数据类型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript数据类型">
+<meta property="og:url" content="http://example.com/2019/08/13/javascript%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
 <meta property="og:site_name" content="欢迎来到我的博客">
+<meta property="og:description" content="javascript数据类型分类两大类：基本数据类型和引用数据类型">
 <meta property="og:locale">
+<meta property="og:image" content="http://example.com/images/stackheap.png">
+<meta property="article:published_time" content="2019-08-13T12:56:07.000Z">
+<meta property="article:modified_time" content="2022-05-25T14:17:10.465Z">
 <meta property="article:author" content="孤独的狼">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/stackheap.png">
   
     <link rel="alternative" href="/atom.xml" title="欢迎来到我的博客" type="application/atom+xml">
   
@@ -233,96 +239,264 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-javascript数据类型" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2022/05/25/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/" class="archive-article-date">
-        <time datetime="2022-05-25T14:42:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-25</time>
-</a>
-
-        </div>
-    	 
+      <header class="article-header">
   
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2022/05/25/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/" target="_blank">深浅拷贝</a>
   
+    <h1 class="article-title" itemprop="name">
+      javascript数据类型
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
+  
 <a href="/2019/08/13/javascript%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="archive-article-date">
         <time datetime="2019-08-13T12:56:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-13</time>
 </a>
 
-        </div>
-    	 
   
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/2019/08/13/javascript%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" target="_blank">javascript数据类型</a>
   
-    </h1>
-  
+    
+<div style="margin-top:10px;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <!-- fonts.scss -->
+      <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
+      <i class="icon-statistics"></i>
+      <span class="post-meta-item-text"> 字数统计:</span>
+      <span class="post-count">427字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="icon-book icon"></i>
+      <span class="post-meta-item-text"> 阅读时长≈</span>
+      <span class="post-count">1分</span>
+    </span>
+  </span>
+</div>
 
 
-        <div class="article-info info-on-right">
-          
-          
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>javascript数据类型分类两大类：基本数据类型和引用数据类型</p>
+<span id="more"></span>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+<h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a><strong>基本数据类型</strong></h2><table style="width:400px;">
+    <tr style="background:#f8f8f8;">
+        <th>数据类型</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>null</td>
+        <td>空值，表示非对象</td>
+    </tr>
+    <tr>
+        <td>undefined</td>
+        <td>声明了变量但未赋值</td>
+    </tr>
+    <tr>
+        <td>number</td>
+        <td>数字，运算的值</td>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>字符串类型</td>
+    </tr>
+    <tr>
+        <td>boolean</td>
+        <td>布尔值，逻辑运算的值</td>
+    </tr>
+    <tr>
+        <td>symbol</td>
+        <td>ES6新增的类型，表示唯一值</td>
+    </tr>
+</table>
+
+<h2 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a><strong>引用数据类型</strong></h2><table style="width:400px;">
+    <tr style="background:#f8f8f8;">
+        <th>数据类型</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>Object</td>
+        <td>对象，由键值组成的无序集合</td>
+    </tr>
+    <tr>
+        <td>Array</td>
+        <td>数组，数据的集合</td>
+    </tr>
+    <tr>
+        <td>Function</td>
+        <td>函数，完成一段特定功能的代码块</td>
+    </tr>
+</table>
+
+<h2 id="存储方式"><a href="#存储方式" class="headerlink" title="存储方式"></a>存储方式</h2><p>基本数据类型存在栈中，按照键值的方式存储，根据键取出对应的值。</p>
+<p>引用数据类型存储在堆中，同时会在栈中保存堆的引用地址。</p>
+<img src="/images/stackheap.png">
+
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">基本数据类型值不可变</span><br><span class="line"><span class="keyword">let</span> a = <span class="string">&#x27;hello&#x27;</span></span><br><span class="line"><span class="keyword">let</span> b = a</span><br><span class="line">b = <span class="string">&#x27;world&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a)   <span class="comment">// hello</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b)	 <span class="comment">// world</span></span><br><span class="line"></span><br><span class="line">引用数据类型会变化</span><br><span class="line"><span class="keyword">let</span> obj1 = &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;Jaon&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> obj2 = obj1</span><br><span class="line">obj2.<span class="property">name</span> = <span class="string">&#x27;Tom&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj1)  <span class="comment">// &#123;&quot;name&quot;:&quot;Tom&quot;&#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj2)  <span class="comment">// &#123;&quot;name&quot;:&quot;Tom&quot;&#125;</span></span><br><span class="line"></span><br><span class="line">比较方式不同</span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">1</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a===b)  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj1 = &#123;<span class="attr">num</span>:<span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">let</span> obj2 = &#123;<span class="attr">num</span>:<span class="number">2</span>&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj1 === obj2) <span class="comment">// false</span></span><br><span class="line">由此看来，基本数据类型比较的是值而引用数据类型比较的是引用地址。这和它们的存储方式有关。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">基本类型通过值传递，就是使用=将变量赋值到另一个变量上，实际上是把对应的值拷贝了一份，然后赋值给新的变量。我们把它称为值传递。</span><br><span class="line">对象是通过引用传递的而不是值，它在变量赋值时只会将地址传递过去。</span><br></pre></td></tr></table></figure>
+
+
+
 
     
+
+    
+
+    
+    <div class="declare"> 
+      <ul class="post-copyright">
+        <li>
+          <strong>本文作者：</strong>
+          孤独的狼
+        </li>
+        <li>
+          <strong>本文链接：</strong>
+          <a href="http://example.com/2019/08/13/javascript数据类型/" title="javascript数据类型" target="_blank">http://example.com/2019/08/13/javascript数据类型/</a>
+        </li>
+        
+        <li>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，均采用 <a href="https://github.com/JoeyBling/hexo-theme-yilia-plus/blob/master/LICENSE" rel="external nofollow" target="_blank">MIT</a> 许可协议。转载请注明出处！
+        </li>
+        
+      </ul>
+    </div>
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
+
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2019/08/13/javascript%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+
+<nav id="article-nav">
+  
+    <a href="/2022/05/25/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          深浅拷贝
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">基本数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">引用数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">存储方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E5%88%AB"><span class="toc-number">4.</span> <span class="toc-text">区别</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
           </div>
@@ -351,8 +525,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
