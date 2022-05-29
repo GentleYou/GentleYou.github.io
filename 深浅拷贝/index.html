@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://GentleYou.github.io">
-  <title>webpack热更新实现原理 | 欢迎来到我的博客</title>
+  <title>深浅拷贝 | 欢迎来到我的博客</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="热更新是什么？">
+  <meta name="description" content="什么是深浅拷贝？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="webpack热更新实现原理">
-<meta property="og:url" content="http://gentleyou.github.io/2022/05/28/webpack%E7%83%AD%E6%9B%B4%E6%96%B0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:title" content="深浅拷贝">
+<meta property="og:url" content="http://gentleyou.github.io/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/index.html">
 <meta property="og:site_name" content="欢迎来到我的博客">
-<meta property="og:description" content="热更新是什么？">
+<meta property="og:description" content="什么是深浅拷贝？">
 <meta property="og:locale">
-<meta property="article:published_time" content="2022-05-28T11:30:55.000Z">
-<meta property="article:modified_time" content="2022-05-29T08:19:11.911Z">
+<meta property="article:published_time" content="2019-08-13T14:42:08.000Z">
+<meta property="article:modified_time" content="2022-05-26T01:23:42.382Z">
 <meta property="article:author" content="孤独的狼">
 <meta name="twitter:card" content="summary">
   
@@ -237,22 +237,22 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-webpack热更新实现原理" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-深浅拷贝" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
   
   
     <h1 class="article-title" itemprop="name">
-      webpack热更新实现原理
+      深浅拷贝
     </h1>
   
 
 
   
   
-<a href="/2022/05/28/webpack%E7%83%AD%E6%9B%B4%E6%96%B0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-article-date">
-        <time datetime="2022-05-28T11:30:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-28</time>
+<a href="/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/" class="archive-article-date">
+        <time datetime="2019-08-13T14:42:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-13</time>
 </a>
 
   
@@ -265,7 +265,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">542字</span>
+      <span class="post-count">561字</span>
     </span>
   </span>
 
@@ -274,7 +274,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">1分</span>
+      <span class="post-count">2分</span>
     </span>
   </span>
 </div>
@@ -285,24 +285,16 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h2 id="热更新是什么？"><a href="#热更新是什么？" class="headerlink" title="热更新是什么？"></a>热更新是什么？</h2><span id="more"></span>
+    <h2 id="什么是深浅拷贝？"><a href="#什么是深浅拷贝？" class="headerlink" title="什么是深浅拷贝？"></a>什么是深浅拷贝？</h2><span id="more"></span>
 
-<p>在webpack开发阶段，热更新功为开发提供了良好的开发效率。</p>
-<p>HMR（Hot Module Replacement）是webpack一个重要的特性，当代码文件修改并保存后，webpack通过watch监听到文件的变化，会对文件重新打包生成两个模块补丁文件manifest和一个【或多个】updated chunk，将结果存储在文件系统中，通过websocket通信机制将重新打包的模块发送到浏览器端，浏览器动态的获取新的模块补丁替换旧的模块，浏览器不需要刷新页面就可以实现应用的更新。</p>
-<h2 id="HMR相关的中间件"><a href="#HMR相关的中间件" class="headerlink" title="HMR相关的中间件"></a>HMR相关的中间件</h2><ul>
-<li><p>webpack-dev-middleware</p>
-<p>  本质是一个容器，将webpack处理后的文件传递给服务器</p>
-<p>  webpack-dev-middleware是一个express中间件，核心实现两个功能：第一个file-loader内部集成了node的monery-fs&#x2F;memfs内部文件系统，直接将资源存储在内存。第二是通过watch监听文件的变化，动态编译</p>
-</li>
-<li><p>webpack-hot-middleware</p>
-<p>  核心是给webpack提高服务端和客户端之间的通信机制，内部使用window.EventSocurce实现。</p>
-<p>  在webpack第一次打包的时候，除了代码本身之外，还包含一部分HMRruntime订阅服务代码，HMRruntime订阅服务器的更新变化，触发HMRruntime Api拉去最新的资源模块。webpack-hot-middleware实现页面的热重载。</p>
-</li>
-<li><p>webpack-dev-server</p>
-<p>  内置了webpack-dev-middleware和express服务器，利用webpack-dev-middleware提供文件的监听和编译，利用express提供http服务，底层利用websocket代替EventSource实现了webpack-hot-middleware提供的客户端和服务器之间的通信机制。</p>
-</li>
-</ul>
-<h2 id="MHR工作原理"><a href="#MHR工作原理" class="headerlink" title="MHR工作原理"></a>MHR工作原理</h2><p>1.webpack –watch启动监听模式之后，webpack第一次编译项目，并将结果存储在内存文件系统，相比磁盘文件读写方式内存文件管理速度跟快，内存webpack服务器通知浏览器加载资源，浏览器获取的静态资源除了JS代码内容之外，还有一部分通过webpack-dev-server注入的HMRruntime代码，作为浏览器和webpack服务器通信的客户端。</p>
+<p><strong>浅拷贝</strong>就是通过赋值的方式进行拷贝，那为什么叫浅拷贝呢？就是因为在赋值的时候只会把对象的第一层数据赋值给一个新对象，如果里面的属性值为数组或者对象的属性，那么就只拷贝属性在栈空间的指针地址，新对象的属性数据会和旧对象的数据公用一份，也就是说其中一个数据发生了变化另一个也会变化。</p>
+<p><strong>深拷贝</strong>就不会出现上述问题，他会将引用数据类型的地址和数据全部拷贝出来，其中一个发生另一个不会跟着变。</p>
+<h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><p><strong>浅拷贝</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>通过<span class="keyword">for</span> i遍历原对象赋值给新对象</span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">    <span class="attr">hobby</span>:[<span class="string">&#x27;readBook&#x27;</span>,<span class="string">&#x27;computer&#x27;</span>,<span class="string">&#x27;play ping-pong&#x27;</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newObj = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i <span class="keyword">in</span> obj)&#123;</span><br><span class="line">    newObj[i] = obj[i]</span><br><span class="line">&#125;</span><br><span class="line">obj.<span class="property">hobby</span>[<span class="number">1</span>] = <span class="string">&#x27;write&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>通过结构赋值的方式</span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    <span class="attr">hobby</span>:[<span class="string">&#x27;readBook&#x27;</span>,<span class="string">&#x27;computer&#x27;</span>,<span class="string">&#x27;play ping-pong&#x27;</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newObj = &#123;...obj&#125;</span><br><span class="line">obj.<span class="property">hobby</span>[<span class="number">1</span>] = <span class="string">&#x27;write&#x27;</span></span><br><span class="line"></span><br><span class="line">它们的打印结果都是</span><br><span class="line">&#123;<span class="string">&quot;hobby&quot;</span>:[<span class="string">&quot;readBook&quot;</span>,<span class="string">&quot;write&quot;</span>,<span class="string">&quot;play ping-pong&quot;</span>]&#125;</span><br><span class="line">&#123;<span class="string">&quot;hobby&quot;</span>:[<span class="string">&quot;readBook&quot;</span>,<span class="string">&quot;write&quot;</span>,<span class="string">&quot;play ping-pong&quot;</span>]&#125;</span><br><span class="line">当修改原对象中属性数据的时候，两个对象都是互通的</span><br></pre></td></tr></table></figure>
+
+<p><strong>深拷贝</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">通过序列化反序列化</span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    <span class="attr">hobby</span>: [<span class="string">&#x27;readBook&#x27;</span>, <span class="string">&#x27;computer&#x27;</span>, <span class="string">&#x27;play ping-pong&#x27;</span>],</span><br><span class="line">    <span class="attr">und</span>: <span class="literal">undefined</span>,</span><br><span class="line">    <span class="attr">fn</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;函数&#x27;</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">sml</span>: <span class="title class_">Symbol</span>(<span class="string">&#x27;aaa&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newObj = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(obj))</span><br><span class="line">obj.<span class="property">hobby</span>[<span class="number">1</span>] = <span class="string">&#x27;write&#x27;</span></span><br><span class="line">obj.<span class="property">fn</span> = <span class="keyword">function</span> <span class="title function_">fn2</span>(<span class="params"></span>)&#123;<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;改变的函数&#x27;</span>)&#125;</span><br><span class="line">obj &#123;<span class="string">&quot;hobby&quot;</span>:[<span class="string">&quot;readBook&quot;</span>,<span class="string">&quot;write&quot;</span>,<span class="string">&quot;play ping-pong&quot;</span>]&#125;</span><br><span class="line">obj2 &#123;<span class="string">&quot;hobby&quot;</span>:[<span class="string">&quot;readBook&quot;</span>,<span class="string">&quot;computer&quot;</span>,<span class="string">&quot;play ping-pong&quot;</span>]&#125;</span><br><span class="line">可以发现序列化反序列化可以实现深拷贝但是存在缺点</span><br><span class="line"><span class="number">1.</span>不会拷贝函数</span><br><span class="line"><span class="number">2.</span>不会拷贝<span class="title class_">Symbol</span>()</span><br><span class="line"><span class="number">3.</span>不会拷贝值为<span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">简单的循环递归</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">deepCopy</span>(<span class="params">obj, b = &#123;&#125;</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> newObj = b</span><br><span class="line">    <span class="keyword">if</span> (obj === <span class="literal">null</span>) <span class="keyword">return</span> obj</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> obj) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> obj[i] === <span class="string">&#x27;object&#x27;</span>) &#123;</span><br><span class="line">            newObj[i] = obj[i].<span class="property">constructor</span> === <span class="title class_">Array</span> ? [] : &#123;&#125;</span><br><span class="line">            <span class="title function_">deepCopy</span>(obj[i], newObj[i])</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            newObj[i] = obj[i]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> newObj</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 
     
 
@@ -317,7 +309,7 @@
         </li>
         <li>
           <strong>本文链接：</strong>
-          <a href="http://GentleYou.github.io/2022/05/28/webpack热更新实现原理/" title="webpack热更新实现原理" target="_blank">http://GentleYou.github.io/2022/05/28/webpack热更新实现原理/</a>
+          <a href="http://GentleYou.github.io/深浅拷贝/" title="深浅拷贝" target="_blank">http://GentleYou.github.io/深浅拷贝/</a>
         </li>
         
         <li>
@@ -384,7 +376,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://gentleyou.github.io/2022/05/28/webpack%E7%83%AD%E6%9B%B4%E6%96%B0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" alt="微信分享二维码"> -->
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://gentleyou.github.io/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/" alt="微信分享二维码"> -->
     </div>
 </div>
 
@@ -399,9 +391,18 @@
 
 <nav id="article-nav">
   
+    <a href="/promise%E5%AE%9E%E7%8E%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          promise实现
+        
+      </div>
+    </a>
   
-    <a href="/2021/08/14/webpack%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">webpack学习日记</div>
+  
+    <a href="/javascript%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">javascript数据类型</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -428,7 +429,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">热更新是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HMR%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">HMR相关的中间件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MHR%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">MHR工作原理</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">什么是深浅拷贝？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">实现方式</span></a></li></ol>
                     </div>
                 </span>
             </div>
